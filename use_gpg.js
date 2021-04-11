@@ -19,8 +19,8 @@ function generate_keys() {
         passphrase: 'super long and hard to guess secret' // protects the private key
     });
 
-    document.getElementById('recv-prv').innerText = privateKeyArmored;
-    document.getElementById('recv-pub').innerText = publicKeyArmored;
+    document.getElementById('recv-prv').value= privateKeyArmored;
+    document.getElementById('recv-pub').value = publicKeyArmored;
   })(); 
 }
 
