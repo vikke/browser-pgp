@@ -1,8 +1,4 @@
-function crypt() {
-  alert('crypt');
-}
-
-function genKey() {
+function generate_keys() {
   (async () => {
     const { privateKeyArmored, publicKeyArmored, revocationCertificate } = await openpgp.generateKey({
         type: 'ecc', // Type of the key, defaults to ECC
@@ -31,11 +27,11 @@ function genKey() {
 
 function crypt() {
   (async () => {
-    const receive_public_key_armored = document.getElementById('recv-pub');
-    const receive_public_key = openpgp.readKey({armoredKey: receive_public_key_armored});
+    const receive_public_key_armored = document.getElementById('recv-pub').value;
+    const receive_public_key = await openpgp.readKey({armoredKey: receive_public_key_armored})
 
     const encrypted = await openpgp.encrypt({
-      message: await openpgp.createMessage({text: document.getElementById('message').value}),
+      message: openpgp.Message.fromText(document.getElementById('message').value),
       publicKeys: receive_public_key
     });
 
