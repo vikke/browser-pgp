@@ -1,0 +1,30 @@
+<head>
+	<script src="openpgp.js"></script>
+	<script src="use_gpg.js"></script>
+
+</head>
+<body>
+	<label>send-prv(a@example.com)</label>
+	<textarea id='send-prv'></textarea>
+
+	<label>send-pub</label>
+	<textarea id='send-pub'></textarea>
+
+	<p/>
+
+	<label>recv-prv(b@example.com)</label>
+	<textarea id='recv-prv'></textarea>
+
+	<label>recv-pub</label>
+	<textarea id='recv-pub'></textarea>
+	<p/>
+
+	<label>message<label>
+	<textarea id='message'></textarea>
+
+	<label>crypted</label>
+	<textarea id='crypted'></textarea>
+
+	<button id='crypt' onClick='crypt();'>crypt</button>
+	<button id='genkey' onClick='genKey();'>generate keys</button>
+</body>
