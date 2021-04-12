@@ -3,8 +3,7 @@ function generate_keys() {
     const { privateKeyArmored, publicKeyArmored, revocationCertificate } = await openpgp.generateKey({
         type: 'ecc', // Type of the key, defaults to ECC
         curve: 'curve25519', // ECC curve name, defaults to curve25519
-        userIds: [{ name: 'a', email: 'a@example.com' }], // you can pass multiple user IDs
-        passphrase: 'super long and hard to guess secret' // protects the private key
+        userIds: [{ name: 'a', email: 'a@example.com' }] // you can pass multiple user IDs
     });
 
     document.getElementById('send-prv').innerText = privateKeyArmored;
@@ -15,8 +14,7 @@ function generate_keys() {
     const { privateKeyArmored, publicKeyArmored, revocationCertificate } = await openpgp.generateKey({
         type: 'ecc', // Type of the key, defaults to ECC
         curve: 'curve25519', // ECC curve name, defaults to curve25519
-        userIds: [{ name: 'a', email: 'b@example.com' }], // you can pass multiple user IDs
-        passphrase: 'super long and hard to guess secret' // protects the private key
+        userIds: [{ name: 'a', email: 'b@example.com' }] // you can pass multiple user IDs
     });
 
     document.getElementById('recv-prv').value= privateKeyArmored;
@@ -35,7 +33,25 @@ function crypt() {
       publicKeys: receive_public_key
     });
 
-    document.getElementById('crypted').innerText = encrypted;
+    document.getElementById('crypted').value = encrypted;
+
+  })();
+}
+
+function decrypt() {
+  (async () => {
+    const receive_private_key_armored = document.getElementById('recv-prv').value;
+    const receive_private_key = await openpgp.readKey({armoredKey: receive_private_key_armored});
+
+    const message = await openpgp.readMessage({
+      armoredMessage: document.getElementById('crypted').value
+    });
+    const { data: decrypted } = await openpgp.decrypt({
+      message,
+      privateKeys: receive_private_key
+    })
+
+    document.getElementById('decrypted').value = decrypted;
 
   })();
 }
