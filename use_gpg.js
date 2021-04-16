@@ -55,3 +55,32 @@ function decrypt() {
 
   })();
 }
+
+function crypt_file() {
+  (async () => {
+    const receive_public_key_armored = document.getElementById('recv-pub').value;
+    const receive_public_key = await openpgp.readKey({armoredKey: receive_public_key_armored})
+
+    let crypt_button = document.getElementById("crypt_button");
+    crypt_button.onchange = function () {
+      file = crypt_button.files[0];
+      let file_reader = new FileReader();
+      
+      file_reader.onload = function() {
+        let binary = new Uint8Array(file_reader.result);  
+
+        const message = openpgp.Message.fromBinary(binary);
+
+        const encrypted =  openpgp.encrypt({
+          message: message,
+          publicKeys: receive_public_key
+        });
+      }
+
+      file_reader.readAsArrayBuffer(file);
+      console.log(file_reader);
+    }
+  })
+}
+
+
